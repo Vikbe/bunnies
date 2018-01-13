@@ -9,7 +9,7 @@ int main()
 {
 	srand((unsigned)std::time(0));
 	
-	std::vector<Bunny> bunnies;
+	std::list<Bunny> bunnies;
 	firstBunnies(bunnies);  
 	for (int i = 0; i < 10; i++)
 	{

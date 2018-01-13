@@ -1,8 +1,18 @@
 #include <string> 
 #include <ctime> 
-#include <vector> 
-#include <iostream>
+#include <list> 
+#include <iostream> 
+#include <algorithm>
 
+enum Color
+{
+	White,
+	Brown,
+	Black,
+	Spotted
+};
+
+enum Sex { Male, Female };
 
 class Bunny
 {
@@ -10,18 +20,22 @@ public:
 	Bunny();
 	Bunny(Bunny* m);
 
-	void makeBabies(const Bunny b, bool malesAlive, std::vector<Bunny> &bb);
-	bool maleFuck(const Bunny male);
-	void ageTurn(Bunny& b);
-	enum Color
+	void makeBabies(std::list<Bunny>& bunnies);
+	bool maleFuck();
+	void ageTurn(); 
+	friend void newTurn(std::list<Bunny>& bunnies);
+ 
+	std::string sexString()
 	{
-		White,
-		Brown,
-		Black,
-		Spotted
-	};
-
-	enum Sex { Male, Female };
+		if (_sex == Male) {
+			return "Male";
+		}
+		else {
+			return "Female";
+		}
+		
+	}
+	
 
 private:
 	std::string _name;
@@ -34,31 +48,33 @@ private:
 };
 
 
-static int randInt(int x, int y)   // Returns a random number from x-y 
+static int randInt(int ceiling, int floor)   // Returns a random number within range
 {
-	int number = rand() % y + x;
-	return number;
+	if (floor < ceiling)
+	{
+		int range = (ceiling - floor) + 1;
+		return rand() % range;
+	}
 }
 
 static std::string randomName()
 {
 	std::string nameList[10] = { "Thumper", "Oreo", "Coco", "Peanut", "Pepper", "Fluffy", "Ginger", "Cookie", "Hazel", "Nibbles" };
-	return nameList[randInt(0, 9)];
+	return nameList[randInt(9, 0)];
 }
 
 static bool radioActiveChance()
 {
-	if (randInt(1, 100) == 1 || randInt(1, 100) == 2)
+	if (randInt(100, 1) == 1 || randInt(1, 100) == 2)
 		return true;
 	else
 		return false;
 } 
 
-static bool males(const std::vector<Bunny>& bb);
 
-void newTurn(std::vector<Bunny>& bb);
 
-void firstBunnies(std::vector<Bunny>& bb);
+
+void firstBunnies(std::list<Bunny>& bb);
 
 
 
